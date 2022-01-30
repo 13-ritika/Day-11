@@ -1,0 +1,25 @@
+// leetcode medium dp, tabulation
+// in: {3,4,1}, amount = 5
+// dp-> 0 1 2 1 1 2 (indicating the minimum number of coins required to make values 0 1 2 3 4 5)
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int dp[]= new int[amount+1]; // create array till the amount
+        int n= coins.length;
+        dp[0]=0; // implies 0 coins required to make value 0
+        for(int i=1;i<=amount;i++)
+            dp[i]= Integer.MAX_VALUE;
+        for(int i=1;i<=amount;i++){
+            for(int j=0;j<n;j++){
+                if(coins[j]<=i){
+                    int sub = dp[i-coins[j]];
+                    if(sub!=Integer.MAX_VALUE){
+                        dp[i]= Math.min(dp[i],sub+1);
+                    }
+                }
+            }
+        }
+        if(dp[amount]==Integer.MAX_VALUE) return -1;
+        return dp[amount];
+        
+    }
+}
